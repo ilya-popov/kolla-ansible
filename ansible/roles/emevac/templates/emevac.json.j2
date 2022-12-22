@@ -1,0 +1,30 @@
+{
+    "command": "emevac",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/id_rsa",
+            "dest": "/etc/emevac/id_rsa",
+            "owner": "emevac",
+            "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/emevac.conf",
+            "dest": "/etc/emevac/emevac.conf",
+            "owner": "emevac",
+            "perm": "0660"
+        },
+        {
+            "source": "{{ container_config_directory }}/logging.conf",
+            "dest": "/etc/emevac/logging.conf",
+            "owner": "emevac",
+            "perm": "0660"
+        }
+    ],
+    "permissions": [
+        {
+            "path": "/var/log/kolla/emevac",
+            "owner": "emevac:kolla",
+            "recurse": true
+        }
+    ]
+}

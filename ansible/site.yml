@@ -29,6 +29,7 @@
         - enable_cyborg_{{ enable_cyborg | bool }}
         - enable_designate_{{ enable_designate | bool }}
         - enable_elasticsearch_{{ enable_elasticsearch | bool }}
+        - enable_emevac_{{ enable_emevac | bool }}
         - enable_etcd_{{ enable_etcd | bool }}
         - enable_freezer_{{ enable_freezer | bool }}
         - enable_glance_{{ enable_glance | bool }}
@@ -1138,3 +1139,14 @@
     - { role: masakari,
         tags: masakari,
         when: enable_masakari | bool }
+
+- name: Apply role emevac
+  gather_facts: false
+  hosts:
+    - control
+    - '&enable_emevac_True'
+  serial: '{{ kolla_serial|default("0") }}'
+  roles:
+    - { role: emevac,
+        tags: emevac,
+        when: enable_emevac | bool }

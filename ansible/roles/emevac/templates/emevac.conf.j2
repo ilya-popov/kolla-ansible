@@ -1,0 +1,114 @@
+[DEFAULT]
+debug = {{ emevac_logging_debug }}
+log_file = /var/log/kolla/emevac/emevac.log
+#log_config_append = /etc/emevac/logging.conf
+
+[EVACUATION]
+# Main loop checks nova hypervisor states with this period, seconds
+# (integer value)
+main_check_period = 20
+# IP address to look for when checking if the script is running on
+# master controller (string value)
+vip_ip = {{ kolla_internal_vip_address }}
+
+# Use this username to connect to hypervisor (string value)
+ssh_username = "ubuntu"
+# Use this private key to connect to hypervisor (string value)
+ssh_key_filename = "/etc/emevac/id_rsa"
+# SSH test connection timeout, seconds (integer value)
+ssh_timeout = 5
+# max attempts number to ssh connect (integer value)
+max_ssh_connect_attempts = 3
+# Default ssh port to try (integer value)
+ssh_default_port = 22
+# Sleep for this many seconds between failed SSH connection attempts
+# (integer value)
+ssh_retry_pause = 10
+
+# EVACUATION
+# a pause between server's status checks after its evacuation (integer
+# value)
+check_evac_status_pause = 3
+# a max number of server's status checks after the evacuation start
+# (integer value)
+max_num_check_evac_status_pause = 10
+# max number of evacuation attempts of one particular instance
+# (integer value)
+one_server_max_evac_attempts = 3
+# sleep for this many seconds between two evacuation starts
+# (integer value)
+evac_pause = 5
+# String to search in disabled_reason for a disabled host
+# in order to decide whether to auto-enable it
+reserved_host = RESERV
+# (boolean value)
+evacuate_without_reserve_host = False
+# (integer value)
+#max_evac_attempts = 3
+# (integer value)
+transition_to_down_state_timeout = 150
+
+# IRONIC
+# Max number of node's state checks after changing state
+# (integer value)
+max_num_check_node_state = 10
+
+[AUTH]
+# Identity service endpoint for authentication (string value)
+auth_url = {{ keystone_admin_url }}/v3
+# User's domain name for authentication (string value)
+user_domain_name = Default
+# Project name for project scoping (string value)
+project_name = {{ keystone_admin_project }}
+# Project's domain name for project (string value)
+project_domain_name = Default
+# Username for authentication (string value)
+username = {{ keystone_admin_user }}
+# Password for authentication (string value)
+password = {{ keystone_admin_password }}
+# Verify for keystone session (boolean value)
+ssl_verify = False
+
+[EMAIL]
+# SMTP server host (string value)
+smtp_server = ""
+# SMTP server port (integer value)
+smtp_server_port = 0
+# Credentials for login: email (string value)
+email = ""
+# Credentials for login: password (string value)
+password = ""
+# Sender's email (string value)
+sender = ""
+# Recipients emails (list value)
+recipients = email@example.com, email2@example.com
+# (boolean value)
+use_tls = False
+# Path to alert jinja templates directory (string value)
+template_folder = '/etc/emevac/templates/'
+
+[KEYSTONE_CLIENT]
+# (floating point value)
+nova_version = 3
+# (string value)
+endpoint_type = internal
+# (string value)
+region_name = {{ openstack_region_name }}
+# (boolean value)
+insecure = False
+
+[NOVA_CLIENT]
+# (floating point value)
+nova_version = 2.68
+# (string value)
+endpoint_type = internal
+# (string value)
+region_name = {{ openstack_region_name }}
+# (boolean value)
+insecure = False
+
+[IRONIC_CLIENT]
+# (floating point value)
+ironic_version = 1
+# (string value)
+endpoint_type = internal

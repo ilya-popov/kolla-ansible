@@ -1,0 +1,36 @@
+[loggers]
+keys = root, emevac
+
+[logger_root]
+level = WARNING
+handlers = null
+
+[logger_emevac]
+level = DEBUG
+handlers = stderr, file
+qualname = emevac
+
+[handlers]
+keys = stderr, file, null
+
+[formatters]
+keys = context
+
+[handler_null]
+class = logging.NullHandler
+formatter = context
+args = ()
+
+[handler_stderr]
+level = INFO
+class = StreamHandler
+args = (sys.stderr,)
+formatter = context
+
+[handler_file]
+class = FileHandler
+args = ('/var/log/kolla/emevac/emevac.log',)
+formatter = context
+
+[formatter_context]
+class = oslo_log.formatters.ContextFormatter

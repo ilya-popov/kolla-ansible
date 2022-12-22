@@ -1,0 +1,33 @@
+---
+emevac_services:
+  emevac:
+    container_name: emevac
+    group: control
+    enabled: true
+    image: "{{ emevac_image_full }}"
+    volumes: "{{ emevac_default_volumes + emevac_extra_volumes }}"
+    dimensions: "{{ emevac_dimensions }}"
+
+####################
+# Docker
+####################
+emevac_install_type: "{{ kolla_install_type }}"
+emevac_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ emevac_install_type }}-emevac"
+emevac_tag: "{{ openstack_tag }}"
+emevac_image_full: "{{ emevac_image }}:{{ emevac_tag }}"
+
+emevac_dimensions: "{{ default_container_dimensions }}"
+
+emevac_default_volumes:
+  - "{{ node_config_directory }}/emevac/:{{ container_config_directory }}/:ro"
+  - "/etc/localtime:/etc/localtime:ro"
+  - "{{ '/etc/timezone:/etc/timezone:ro' if ansible_facts.os_family == 'Debian' else '' }}"
+  - "kolla_logs:/var/log/kolla/"
+  - "/sys/:/sys/:ro"
+  - "/dev/:/dev/:ro"
+emevac_extra_volumes: "{{ default_extra_volumes }}"
+
+####################
+# OpenStack
+####################
+emevac_logging_debug: "{{ openstack_logging_debug }}"
